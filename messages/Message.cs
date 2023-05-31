@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 
 namespace messages
 {
@@ -133,6 +134,24 @@ namespace messages
             return false;
         }
 
-        
+        private static JsonSerializerOptions options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+        public static List<Message> readMessagesFromFile()
+        {
+            try
+            {
+                using FileStream json = File.OpenRead(@"..\..\..\messages.json");
+                return JsonSerializer.Deserialize<List<Message>>(json, options);
+            }
+            catch
+            {
+                return new List<Message>();
+            }
+        }
+
+        public async static void WriteMessagesToFile(List<Message> messages)
+        {
+            await using var fileStream = File.Create(@"..\..\..\messages.json");
+            await JsonSerializer.SerializeAsync(fileStream, messages);
+        }
     }
 }

@@ -1,5 +1,7 @@
 
+using Microsoft.VisualBasic.ApplicationServices;
 using System;
+using System.Diagnostics;
 
 namespace messages
 {
@@ -35,28 +37,19 @@ namespace messages
 
         private void send_button_Click(object sender, EventArgs e)
         {
+            bool check = true;
             if (mailingCheckBox.Checked == false)
             {
                 try
                 {
                     message.SenderNumber = senderTextBox.Text;
-                }
-                catch
-                {
-                    MessageBox.Show("Неправильний формат номера!\nПеревірте кількість цифр або спробуйте почати введення з +380", "Помилка");
-                    Close();
-                }
-
-                try
-                {
                     message.ReceiverNumber = receiverTextBox.Text;
                 }
                 catch
                 {
                     MessageBox.Show("Неправильний формат номера!\nПеревірте кількість цифр або спробуйте почати введення з +380", "Помилка");
-                    Close();
+                    check = false;
                 }
-
                 message.Text = messageTextBox.Text;
             }
 
@@ -65,21 +58,12 @@ namespace messages
                 try
                 {
                     mailing.SenderNumber = senderTextBox.Text;
-                }
-                catch
-                {
-                    MessageBox.Show("Неправильний формат номера!\nПеревірте кількість цифр або спробуйте почати введення з +380", "Помилка");
-                    Close();
-                }
-
-                try
-                {
                     mailing.ReceiverNumber = receiverTextBox.Text;
                 }
                 catch
                 {
                     MessageBox.Show("Неправильний формат номера!\nПеревірте кількість цифр або спробуйте почати введення з +380", "Помилка");
-                    Close();
+                    check = false;
                 }
                 mailing.Text = messageTextBox.Text;
                 int n = Convert.ToInt32(additionalAmountTextBox.Text);
@@ -90,9 +74,8 @@ namespace messages
                 catch
                 {
                     MessageBox.Show("Кількість повинна бути цілим додатнім числом", "Помилка");
-                    Close();
+                    check = false;
                 }
-
                 string[] arr = new string[n];
                 for (int i = 0; i < n; i++)
                 {
@@ -101,15 +84,31 @@ namespace messages
                     else
                     {
                         MessageBox.Show("Неправильний формат номера!\nПеревірте кількість цифр або спробуйте почати введення з +380", "Помилка");
-                        Close();
+                        check = false;
                     }
                 }
                 mailing.AdditionalReceivers = arr;
-
             }
 
-            progressBar1.Visible = true;
-            timer1.Enabled = true;
+            progressBar1.Visible = false;
+            timer1.Enabled = false;
+
+            if (check == true)
+            {
+                progressBar1.Visible = true;
+                timer1.Enabled = true;
+            }
+
+
+            //senderTextBox.Clear();
+            //receiverTextBox.Clear();
+            //messageTextBox.Clear();
+            //additionalAmountTextBox.Clear();
+            //additionalReceiversTextBox.Clear();
+
+            //TextWriter textWriter = new StreamWriter("C:\\Users\\ASUS\\Source\\Repos\\messages\\messages\\history.txt");
+            //textWriter.Write("Відправник: " + senderTextBox.Text + ". Повідомлення: " + messageTextBox.Text);
+            //textWriter.Close();
 
 
         }
@@ -129,17 +128,12 @@ namespace messages
 
                     }));
                 });
-
-
                 if (mailingCheckBox.Checked == false)
                 {
                     MessageBox.Show(message.ToString(), "Ваше повідомлення");
                 }
                 else
                     MessageBox.Show(mailing.ToString(), "Ваше повідомлення");
-
-
-
             }
             else
             {
@@ -157,5 +151,7 @@ namespace messages
         {
             Close();
         }
+
+
     }
 }
