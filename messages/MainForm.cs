@@ -42,7 +42,7 @@ namespace messages
             {
                 try
                 {
-                    message.SenderNumber = senderTextBox.Text;
+                    message.SenderNumber = currentPhoneNumber;
                     message.ReceiverNumber = receiverTextBox.Text;
                 }
                 catch
@@ -57,7 +57,7 @@ namespace messages
             {
                 try
                 {
-                    mailing.SenderNumber = senderTextBox.Text;
+                    mailing.SenderNumber = currentPhoneNumber;
                     mailing.ReceiverNumber = receiverTextBox.Text;
                 }
                 catch
@@ -79,7 +79,7 @@ namespace messages
                 string[] arr = new string[n];
                 for (int i = 0; i < n; i++)
                 {
-                    if (additionalReceiversTextBox.Text.Split(",")[i].StartsWith("+380") == true && senderTextBox.Text.Length == 13)
+                    if (additionalReceiversTextBox.Text.Split(",")[i].StartsWith("+380") == true && currentPhoneNumber.Length == 13)
                         arr[i] = additionalReceiversTextBox.Text.Split(",")[i];
                     else
                     {
@@ -152,6 +152,25 @@ namespace messages
             Close();
         }
 
+        
+        public void LogInHandle(object sender, LogInClickHandle e)
+        {
+            this.messages = e.Messages;
+            this.currentPhoneNumber = e.PhoneNumber;
+        }
 
+        private List<Message> messages;
+        private string currentPhoneNumber;
+
+        
+
+        //from m in messages
+          //  where m.SenderNumber == currentPhoneNumber
+          //  select m;
+    }
+    public class LogInClickHandle
+    {
+        public string PhoneNumber { get; init; }
+        public List<Message> Messages { get; init; }
     }
 }
