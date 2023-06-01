@@ -1,6 +1,7 @@
 
 using Microsoft.VisualBasic.ApplicationServices;
 using System;
+using System.Data;
 using System.Diagnostics;
 
 namespace messages
@@ -99,17 +100,26 @@ namespace messages
                 timer1.Enabled = true;
             }
 
+            if (mailingCheckBox.Checked == false)
+                messages.Add(message);
+
+            if (mailingCheckBox.Checked == true)
+            {
+                Message nm = new Message(currentPhoneNumber, mailing.ReceiverNumber, mailing.Text);
+                messages.Add(nm);
+                for (int i = 0; i < mailing.AdditionalAmount; i++)
+                {
+                    Message newMessage = new Message(currentPhoneNumber, mailing.AdditionalReceivers[i], mailing.Text);
+                    messages.Add(newMessage);
+                }
+            }
+            Message.WriteMessagesToFile(messages);
 
             //senderTextBox.Clear();
             //receiverTextBox.Clear();
             //messageTextBox.Clear();
             //additionalAmountTextBox.Clear();
             //additionalReceiversTextBox.Clear();
-
-            //TextWriter textWriter = new StreamWriter("C:\\Users\\ASUS\\Source\\Repos\\messages\\messages\\history.txt");
-            //textWriter.Write("Відправник: " + senderTextBox.Text + ". Повідомлення: " + messageTextBox.Text);
-            //textWriter.Close();
-
 
         }
 
@@ -150,9 +160,8 @@ namespace messages
         private void cancelButton_Click(object sender, EventArgs e)
         {
             Close();
+            Program.authorizationForm.Close();
         }
-
-        
         public void LogInHandle(object sender, LogInClickHandle e)
         {
             this.messages = e.Messages;
@@ -162,12 +171,12 @@ namespace messages
         private List<Message> messages;
         private string currentPhoneNumber;
 
-        
 
         //from m in messages
           //  where m.SenderNumber == currentPhoneNumber
           //  select m;
     }
+
     public class LogInClickHandle
     {
         public string PhoneNumber { get; init; }

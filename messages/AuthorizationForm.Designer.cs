@@ -36,7 +36,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(311, 149);
+            label1.Location = new Point(309, 147);
             label1.Name = "label1";
             label1.Size = new Size(211, 20);
             label1.TabIndex = 0;
@@ -44,7 +44,7 @@
             // 
             // LogInButton
             // 
-            LogInButton.Location = new Point(466, 308);
+            LogInButton.Location = new Point(446, 266);
             LogInButton.Name = "LogInButton";
             LogInButton.Size = new Size(200, 29);
             LogInButton.TabIndex = 1;
@@ -56,7 +56,7 @@
             // 
             PhoneNumberInput.Location = new Point(300, 195);
             PhoneNumberInput.Name = "PhoneNumberInput";
-            PhoneNumberInput.Size = new Size(231, 27);
+            PhoneNumberInput.Size = new Size(235, 27);
             PhoneNumberInput.TabIndex = 2;
             // 
             // AuthorizationForm
